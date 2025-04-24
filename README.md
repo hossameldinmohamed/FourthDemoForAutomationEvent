@@ -67,4 +67,4 @@ Build framework for company tasks. This framework is designed for both **GUI** a
 ### Notes:
 - This framework now fully supports **parallel execution** across different browsers.
 - The **GitHub Actions CI/CD pipeline** automatically runs tests on push and PRs to `master`, generating execution logs and reports.
-- Test results are stored in **Allure and Extent reports**, which can be accessed via **GitHub Actions artifacts**.
+- Test results are stored in **Allure and Extent reports**, which can be accessed via **GitHub Actions artifacts**..
