@@ -1,44 +1,98 @@
-
 name: CI Tests on Ubuntu
-
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
-
+    branches: [ main ]
 jobs:
   build:
     name: Test on Ubuntu
-    runs-on: [ubuntu-latest]
-
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'zulu'
+      
+      # Check Docker version
+      - name: Check Docker version
+        run: docker --version
+      
+      # Install Docker Compose V2
+      - name: Install Docker Compose
+        run: |
+          sudo mkdir -p /usr/local/lib/docker/cli-plugins
+          sudo curl -SL https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+          sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+          docker compose version
+      
+      # Create a proper docker-compose file if the existing one has issues
+      - name: Create Docker Compose file for Selenium Grid
+        run: |
+          cat > src/main/resources/docker-compose_selenium4.yml << 'EOL'
+          version: '3'
+          services:
+            selenium-hub:
+              image: selenium/hub:4.15.0
+              container_name: selenium-hub
+              ports:
+                - "4442:4442"
+                - "4443:4443"
+                - "4444:4444"
+              environment:
+                - GRID_MAX_SESSION=16
+                - GRID_BROWSER_TIMEOUT=300
+                - GRID_TIMEOUT=300
+
+            chrome:
+              image: selenium/node-chrome:4.15.0
+              depends_on:
+                - selenium-hub
+              shm_size: 2gb
+              environment:
+                - SE_EVENT_BUS_HOST=selenium-hub
+                - SE_EVENT_BUS_PUBLISH_PORT=4442
+                - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+                - SE_NODE_MAX_SESSIONS=5
+                - SE_NODE_MAX_INSTANCES=5
+          EOL
+      
+      # Set up Selenium Grid using Docker Compose V2 syntax
       - name: Set up Native Selenium Grid with one hub and four Chrome nodes
-        run: docker-compose -f src/main/resources/docker-compose_selenium4.yml up --scale chrome=4 --remove-orphans -d
+        run: docker compose -f src/main/resources/docker-compose_selenium4.yml up --scale chrome=4 --remove-orphans -d
+      
       - name: Check running containers
         run: docker ps
+      
       - name: Run tests - Chrome Headless
         continue-on-error: true
-        run: mvn test -Dtest=SigninTests -Dexecution.type="Remote"
+        run: mvn test -Dtest=SauceDemoEndToEndTest -Dexecution.type="Remote"
+ 
+      
       - name: Generate Allure report
         run: mvn allure:report
+      
       - name: Copy patch file to allure-maven-plugin folder
-        run: cp src/main/resources/allow-file-access_open-report_chrome_windows.bat target/site/allure-maven-plugin
+        run: |
+          mkdir -p target/site/allure-maven-plugin
+          cp src/main/resources/allow-file-access_open-report_chrome_windows.bat target/site/allure-maven-plugin || echo "Patch file not found, continuing..."
+      
       - name: Check files in the allure-maven-plugin folder
-        run: ls target/site/allure-maven-plugin
+        run: ls -la target/site/allure-maven-plugin || echo "Directory may not exist yet"
+      
       - name: Upload Allure Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Allure Report
-          path: "target/site/allure-maven-plugin"
+          path: target/site/allure-maven-plugin
+        if: always()
+      
       - name: Upload Extent Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Extent Report
-          path: "ExtentReports.html"
+          path: reports/ExtentReports.html
+        if: always()
