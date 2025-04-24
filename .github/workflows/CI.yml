@@ -1,0 +1,44 @@
+
+name: CI Tests on Ubuntu
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Test on Ubuntu
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+      - name: Set up Native Selenium Grid with one hub and four Chrome nodes
+        run: docker-compose -f src/main/resources/docker-compose_selenium4.yml up --scale chrome=4 --remove-orphans -d
+      - name: Check running containers
+        run: docker ps
+      - name: Run tests - Chrome Headless
+        continue-on-error: true
+        run: mvn test -Dtest=SigninTests -Dexecution.type="Remote"
+      - name: Generate Allure report
+        run: mvn allure:report
+      - name: Copy patch file to allure-maven-plugin folder
+        run: cp src/main/resources/allow-file-access_open-report_chrome_windows.bat target/site/allure-maven-plugin
+      - name: Check files in the allure-maven-plugin folder
+        run: ls target/site/allure-maven-plugin
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: Allure Report
+          path: "target/site/allure-maven-plugin"
+      - name: Upload Extent Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: Extent Report
+          path: "ExtentReports.html"
