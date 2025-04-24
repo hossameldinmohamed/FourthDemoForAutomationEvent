@@ -1,0 +1,77 @@
+services:
+  chrome:
+    image: seleniarm/node-chromium:4.10.0
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_VNC_NO_PASSWORD=1
+      - SE_VNC_PORT=5900
+    ports:
+      - "5900-5903:5900"
+    networks:
+      - selenium-grid
+    restart: always
+
+  edge:
+    image: seleniarm/node-chromium:4.10.0
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_NODE_BROWSER_NAME=MicrosoftEdge
+      - SE_VNC_NO_PASSWORD=1
+      - SE_VNC_PORT=5900
+    ports:
+      - "6900-6901:5900"
+    networks:
+      - selenium-grid
+    restart: always
+
+  firefox:
+    image: seleniarm/node-firefox:4.10.0
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_VNC_NO_PASSWORD=1
+      - SE_VNC_PORT=5900
+    ports:
+      - "7900-7902:5900"
+    networks:
+      - selenium-grid
+    restart: always
+
+  selenium-hub:
+    image: seleniarm/hub:4.10.0
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    environment:
+      - GRID_MAX_SESSION=16
+      - GRID_TIMEOUT=300
+      - GRID_BROWSER_TIMEOUT=300
+    networks:
+      - selenium-grid
+    restart: always
+
+networks:
+  selenium-grid:
+    name: selenium-grid
