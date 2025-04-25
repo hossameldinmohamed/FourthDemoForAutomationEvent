@@ -47,7 +47,7 @@ public class SauceDemoEndToEndTest {
     ///////////////// Configurations ////////////////////
     @BeforeClass
     public void classSetup() {
-        testData = new JsonFileManager("src/test/resources/TestData/WeatherShopperTestData.json");
+        testData = new JsonFileManager("src/test/resources/TestData/SauceDemoTestData.json");
     }
 
     @BeforeMethod
