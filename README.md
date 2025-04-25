@@ -69,7 +69,10 @@ Build framework for company tasks. This framework is designed for both **GUI** t
 - Test results are stored in **Allure and Extent reports**, which can be accessed via **GitHub Actions artifacts**...
 
 ### Steps on how to run on Selenium grid ( You need to install docker on your machine first)
-![Selenium Grid)](https://github.com/user-attachments/assets/714f220e-6833-4083-8cfe-7a88a330d817)
+
+
+https://github.com/user-attachments/assets/47abf8b4-18fd-47ce-8645-ad5855a1e228
+
 
 
 ### Selenium Grid Nodes 
