@@ -1,12 +1,11 @@
 # Automation Framework
-Build framework for company tasks. This framework is designed for both **GUI** and **API** test automation, ensuring robust end-to-end testing capabilities. This framework provides an efficient way to automate testing processes, ensuring reliability and performance in various environments.
+Build framework for company tasks. This framework is designed for both **GUI** test automation, ensuring robust end-to-end testing capabilities. This framework provides an efficient way to automate testing processes, ensuring reliability and performance in various environments.
 
 ### The main frameworks included in the project:
 * Selenium WebDriver
 * TestNG
 * Allure Report
 * Extent Reports
-* Apache POI (for data handling)
 
 ### Project Design:
 * Page Object Model (POM) design pattern
