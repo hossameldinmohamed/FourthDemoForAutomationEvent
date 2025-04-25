@@ -13,7 +13,6 @@ Build framework for company tasks. This framework is designed for both **GUI** a
 * Data-Driven framework
 * Fluent design approach (method chaining)
 * Supporting Utilities package in *src/main/java/utils*, which includes various wrapper methods as core utilities for the project
-* Implementing the ***Test Automation Pyramid*** to ensure efficient testing coverage, including **SERVICE (API tests)** for backend validation and **GUI (UI tests)** for end-user experience.
 
 ### How to check execution logs and reports from GitHub Actions:
 * Log in to GitHub as a prerequisite
@@ -36,8 +35,6 @@ Build framework for company tasks. This framework is designed for both **GUI** a
 * The properties file ***"configuration.properties"*** is located in *src/main/resources*, containing all execution configurations.
 * The test cases are located in **src/test/java/**:
     - 📂 `SauceDemoEndToEndTest.java` (UI tests)
-    - 📂 `WeatherShopperApiTests.java` (API tests)
-* The test suite XML file is located at **src/test/resources/TestSuits/automationPractice.xml**.
 * To execute tests:
     - Set `execution.type=Local` in `configuration.properties` for local execution.
     - Right-click on the test suite XML file and select **Run As → TestNG Suite**.
@@ -66,5 +63,5 @@ Build framework for company tasks. This framework is designed for both **GUI** a
 
 ### Notes:
 - This framework now fully supports **parallel execution** across different browsers.
-- The **GitHub Actions CI/CD pipeline** automatically runs tests on push and PRs to `master`, generating execution logs and reports.
+- The **GitHub Actions CI/CD pipeline** automatically runs tests on push and PRs to `main`, generating execution logs and reports.
 - Test results are stored in **Allure and Extent reports**, which can be accessed via **GitHub Actions artifacts**...
