@@ -76,7 +76,8 @@ Build framework for company tasks. This framework is designed for both **GUI** a
 
 ### Live Execution View
 
-<img width="1912" alt="3" src="https://github.com/user-attachments/assets/a8d394a4-8542-4c91-922e-3b3df149c55a" />
+![Live Execution](https://github.com/user-attachments/assets/8e0f46c6-8fe5-42cd-91c4-ae30bec6c7ef)
+
 
 ### After Execution Report
 ![Report](https://github.com/user-attachments/assets/58a99c20-91ed-42fa-9b39-d0b714194185)
