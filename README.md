@@ -68,6 +68,8 @@ Build framework for company tasks. This framework is designed for both **GUI** t
 - The **GitHub Actions CI/CD pipeline** automatically runs tests on push and PRs to `main`, generating execution logs and reports.
 - Test results are stored in **Allure and Extent reports**, which can be accessed via **GitHub Actions artifacts**...
 
+### Steps on how to run on Selenium grid ( You need to install docker on your machine first)
+![Selenium Grid](https://github.com/user-attachments/assets/816e72b9-57ab-4fe0-8f5f-98d899aa70cf)
 
 
 ### Selenium Grid Nodes 
