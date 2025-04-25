@@ -32,6 +32,9 @@ Build framework for company tasks. This framework is designed for both **GUI** a
 * If running on IntelliJ, add the TestNG listener:
     - Open **Edit Run/Debug Configurations** → **Edit Configuration Templates**
     - Select **TestNG** → **Listeners** → Add `utils.TestngListener`
+ 
+      <img width="964" alt="1" src="https://github.com/user-attachments/assets/a7b08b45-41e0-4cd5-97df-f56a64e9310e" />
+
 * The properties file ***"configuration.properties"*** is located in *src/main/resources*, containing all execution configurations.
 * The test cases are located in **src/test/java/**:
     - 📂 `SauceDemoEndToEndTest.java` (UI tests)
@@ -65,3 +68,16 @@ Build framework for company tasks. This framework is designed for both **GUI** a
 - This framework now fully supports **parallel execution** across different browsers.
 - The **GitHub Actions CI/CD pipeline** automatically runs tests on push and PRs to `main`, generating execution logs and reports.
 - Test results are stored in **Allure and Extent reports**, which can be accessed via **GitHub Actions artifacts**...
+
+
+
+### Selenium Grid Nodes 
+<img width="1912" alt="2" src="https://github.com/user-attachments/assets/1f42c5b7-9d9e-4d37-a394-08757dd7fa21" />
+
+### Live Execution View
+
+<img width="1912" alt="3" src="https://github.com/user-attachments/assets/a8d394a4-8542-4c91-922e-3b3df149c55a" />
+
+### After Execution Report
+![Report](https://github.com/user-attachments/assets/58a99c20-91ed-42fa-9b39-d0b714194185)
+
